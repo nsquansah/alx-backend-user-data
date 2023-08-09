@@ -1,26 +1,17 @@
 #!/usr/bin/env python3
-"""Contains password hashing algorithm"""
+""" 5. Encrypting passwords
+"""
+
 import bcrypt
-from typing import Union
 
 
 def hash_password(password: str) -> bytes:
-    """Hashes a password
-    Args:
-        password (str): password to be hashed
+    """ Salted pass generation
     """
-    if type(password) is not str:
-        return b""
-    pw: bytes = password.encode('utf-8')
-    hashed_pw: bytes = bcrypt.hashpw(pw, bcrypt.gensalt())
-
-    return hashed_pw
+    return bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
 
 
 def is_valid(hashed_password: bytes, password: str) -> bool:
-    """Validates @hashed_password with the provided @password"""
-    if type(hashed_password) is not bytes or type(password) is not str:
-        return False
-    dec_pw: bytes = password.encode()
-
-    return bcrypt.checkpw(dec_pw, hashed_password)
+    """ is valid?
+    """
+    return bcrypt.checkpw(password.encode('utf-8'), hashed_password)
